@@ -75,7 +75,7 @@ int main()
     glEnable(GL_DEPTH_TEST);
 
     // build and compile shaders
-    Shader ourShader("1.model_loading.vs", "1.model_loading.fs");
+    Shader ourShader("model_loading.vs", "model_loading.fs");
     if (!ourShader.ID) {
         std::cout << "Failed to compile shaders" << std::endl;
         return -1;

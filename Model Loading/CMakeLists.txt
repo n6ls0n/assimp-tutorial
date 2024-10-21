@@ -5,9 +5,9 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Set paths to look for libraries and includes
-set(LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../libs")
-set(INCLUDES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../include")
-set(DLLS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../dlls")
+set(LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libs")
+set(INCLUDES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include")
+set(DLLS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/dlls")
 
 # Find OpenGL
 find_package(OpenGL REQUIRED)
@@ -26,12 +26,22 @@ find_package(assimp QUIET)
 if(assimp_FOUND)
     set(ASSIMP_INCLUDE_DIR ${ASSIMP_INCLUDE_DIRS})
     set(ASSIMP_LIBRARY ${ASSIMP_LIBRARIES})
-else
+else()
     message(STATUS "Assimp not found via find_package, using manually specified paths")
     set(ASSIMP_INCLUDE_DIR "${INCLUDES_DIR}/assimp")
-    set(ASSIMP_LIBRARY "${LIB_DIR}/assimp.lib")
+    set(ASSIMP_LIBRARY "${LIB_DIR}/assimp-vc143-mtd.lib")
 endif()
-set(ASSIMP_DLL "${DLLS_DIR}/assimp-vc143-mt.dll")
+set(ASSIMP_DLL "${DLLS_DIR}/assimp-vc143-mtd.dll")
+
+# Configure Assimp config.h
+if(EXISTS "${ASSIMP_INCLUDE_DIR}/config.h.in")
+    configure_file(
+        ${ASSIMP_INCLUDE_DIR}/config.h.in
+        ${CMAKE_BINARY_DIR}/include/assimp/config.h
+    )
+else()
+    message(WARNING "assimp/config.h.in not found. Assimp configuration may be incomplete.")
+endif()
 
 # Define the source and destination paths for the backpack folder
 set(BACKPACK_SRC "${CMAKE_CURRENT_SOURCE_DIR}/backpack")
@@ -99,8 +109,8 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${INCLUDES_DIR}
     ${GLAD_INCLUDES_DIR}
     ${GLFW_INCLUDES_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../../../includes/learnopengl
-    ${CMAKE_BINARY_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/includes/learnopengl
+    ${CMAKE_BINARY_DIR}/include
     ${ASSIMP_INCLUDE_DIR}
 )
 
@@ -117,3 +127,4 @@ message(STATUS "Backpack source: ${BACKPACK_SRC}")
 message(STATUS "Backpack destination: ${BACKPACK_DEST}")
 message(STATUS "Binary dir: ${CMAKE_BINARY_DIR}")
 message(STATUS "Assimp include directory: ${ASSIMP_INCLUDE_DIR}")
+message(STATUS "GLAD include directory: ${GLAD_INCLUDES_DIR}")

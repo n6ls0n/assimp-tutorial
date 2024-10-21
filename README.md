@@ -9,7 +9,7 @@
 
 ### Introduction
 
-This is a short tutorial on how to build Assimp from source on Windows and then use it within a project without installing it directly on your system.
+This is a short tutorial on how to build Assimp from source on Windows on VS Code and then use it within a project without installing it directly on your system.
 
 You can also install using vcpkg but make sure you run the .bat files of the same name
 
@@ -42,6 +42,11 @@ You can also install using vcpkg but make sure you run the .bat files of the sam
 To demonstrate how to use Assimp within a project, we will build a model loader & viewer.
 This project is based on an example from the learn-opengl book (3).
 A huge thank you to Joey De Vries(<https://joeydevries.com/#home>).
+
+To run the example:
+
+  1. Ensure you have Visual Studio installed
+  2. Navigate to Model Loading/ and run the build_run_project.bat file
 
 ### References
 

@@ -5,9 +5,9 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Set paths to look for libraries and includes
-set(LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../../lib")
-set(INCLUDES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../../includes")
-set(DLLS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../../dlls")
+set(LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../libs")
+set(INCLUDES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../include")
+set(DLLS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../dlls")
 
 # Find OpenGL
 find_package(OpenGL REQUIRED)
@@ -18,8 +18,8 @@ set(GLFW_INCLUDES_DIR "${INCLUDES_DIR}/GLFW")
 set(GLFW_LIBRARY "${GLFW_DIR}/glfw3.lib")
 
 # Set GLAD settings
-set(GLAD_INCLUDES_DIR "${INCLUDES_DIR}")
-set(GLAD_SRC "${CMAKE_CURRENT_SOURCE_DIR}/../../../src/glad.c")
+set(GLAD_INCLUDES_DIR "${INCLUDES_DIR}/glad")
+set(GLAD_SRC "${CMAKE_CURRENT_SOURCE_DIR}/glad.c")
 
 # Set Assimp settings
 find_package(assimp QUIET)
@@ -31,7 +31,7 @@ else
     set(ASSIMP_INCLUDE_DIR "${INCLUDES_DIR}/assimp")
     set(ASSIMP_LIBRARY "${LIB_DIR}/assimp.lib")
 endif()
-set(ASSIMP_DLL "${DLLS_DIR}/assimp-vc140-mt.dll")
+set(ASSIMP_DLL "${DLLS_DIR}/assimp-vc143-mt.dll")
 
 # Define the source and destination paths for the backpack folder
 set(BACKPACK_SRC "${CMAKE_CURRENT_SOURCE_DIR}/backpack")
@@ -49,13 +49,13 @@ set(BACKPACK_DEST "${CMAKE_BINARY_DIR}/Debug")
 
 # Copy shader files to Debug folder inside the build directory
 add_custom_command(
-    OUTPUT ${CMAKE_BINARY_DIR}/Debug/1.model_loading.vs ${CMAKE_BINARY_DIR}/Debug/1.model_loading.fs
+    OUTPUT ${CMAKE_BINARY_DIR}/Debug/model_loading.vs ${CMAKE_BINARY_DIR}/Debug/model_loading.fs
     COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/Debug
     COMMAND ${CMAKE_COMMAND} -E copy
-        ${CMAKE_CURRENT_SOURCE_DIR}/1.model_loading.vs
-        ${CMAKE_CURRENT_SOURCE_DIR}/1.model_loading.fs
+        ${CMAKE_CURRENT_SOURCE_DIR}/model_loading.vs
+        ${CMAKE_CURRENT_SOURCE_DIR}/model_loading.fs
         ${CMAKE_BINARY_DIR}/Debug
-    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/1.model_loading.vs ${CMAKE_CURRENT_SOURCE_DIR}/1.model_loading.fs
+    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/model_loading.vs ${CMAKE_CURRENT_SOURCE_DIR}/model_loading.fs
 )
 
 # Copy individual files from the backpack folder
@@ -77,8 +77,8 @@ endforeach()
 
 add_custom_target(copy_resources ALL
     DEPENDS
-        ${CMAKE_BINARY_DIR}/Debug/1.model_loading.vs
-        ${CMAKE_BINARY_DIR}/Debug/1.model_loading.fs
+        ${CMAKE_BINARY_DIR}/Debug/model_loading.vs
+        ${CMAKE_BINARY_DIR}/Debug/model_loading.fs
         ${COPIED_BACKPACK_FILES}
 )
 

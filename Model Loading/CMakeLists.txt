@@ -22,8 +22,15 @@ set(GLAD_INCLUDES_DIR "${INCLUDES_DIR}")
 set(GLAD_SRC "${CMAKE_CURRENT_SOURCE_DIR}/../../../src/glad.c")
 
 # Set Assimp settings
-set(ASSIMP_INCLUDE_DIR "${INCLUDES_DIR}/assimp")
-set(ASSIMP_LIBRARY "${LIB_DIR}/assimp.lib")
+find_package(assimp QUIET)
+if(assimp_FOUND)
+    set(ASSIMP_INCLUDE_DIR ${ASSIMP_INCLUDE_DIRS})
+    set(ASSIMP_LIBRARY ${ASSIMP_LIBRARIES})
+else
+    message(STATUS "Assimp not found via find_package, using manually specified paths")
+    set(ASSIMP_INCLUDE_DIR "${INCLUDES_DIR}/assimp")
+    set(ASSIMP_LIBRARY "${LIB_DIR}/assimp.lib")
+endif()
 set(ASSIMP_DLL "${DLLS_DIR}/assimp-vc140-mt.dll")
 
 # Define the source and destination paths for the backpack folder
@@ -109,3 +116,4 @@ message(STATUS "Current source dir: ${CMAKE_CURRENT_SOURCE_DIR}")
 message(STATUS "Backpack source: ${BACKPACK_SRC}")
 message(STATUS "Backpack destination: ${BACKPACK_DEST}")
 message(STATUS "Binary dir: ${CMAKE_BINARY_DIR}")
+message(STATUS "Assimp include directory: ${ASSIMP_INCLUDE_DIR}")

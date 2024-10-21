@@ -3,8 +3,7 @@
         {
             "name": "MainConfig",
             "includePath": [
-                "${workspaceFolder}/**",
-                "${workspaceFolder}/includes/**"
+                "${workspaceFolder}/Model Loading/include/**"
             ],
             "defines": [
                 "_DEBUG",
